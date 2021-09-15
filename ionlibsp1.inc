@@ -2,13 +2,16 @@
 ;	Filename:		iolibsp.inc
 ;	Long name:  	Ion Extended Libs for 83+/84+/SE
 ;	Author:			Kerm Martian aka Christopher Mitchell
-;	Last Update:	June 2, 2006
+;	Last Update:	September 14, 2021
 ;
 ;Please consult license.txt for the fair use agreement
 ;implicitly binding by you continuing to read past this
 ;point.  Close and delete this file if you do not agree
 ;to the terms of the agreement.
 ;-----------------------------------------------------------
+
+; LCD changes made by CVSoft, 14 September 2021. 
+; Removed the Nspire check and always run Nspire FastCopy
 
 ; The Built-in Ion Library Routines by Joe Wingbermuehle
 
@@ -236,56 +239,6 @@ imFastCopy:
 	push af
 		di
 		ld c,$10
-
-		xor a
-		ld r,a
-		ld a,r
-		cp 2						;Nspire check
-		jr nz,imFastCopyNspire
-		bit 3,(iy+41h)				;PresentationLink
-		jr nz,imFastCopyNspire
-msetrow:
-		in a,(c)
-		rla ;test 7th bit
-		jr c,msetrow
-		ld a,$80
-		out ($10),a
-		ld hl,gbuf
-		ld de,12
-		ld a,$20
-mcol:
-		push af ;the push and pop are wasted clocks
-mcolwait: ;but this only occurs 12 times
-		in a,(c)
-		rla
-		jr c,mcolwait
-		pop af
-		out ($10),a
-		push af
-		ld b,64
-mrow:
-		in a,(c)
-		rla
-		jr c,mrow
-		ld a,(hl)
-		out ($11),a
-		add hl,de
-		djnz mrow
-		pop af
-		dec h
-		dec h
-		dec h
-		inc hl
-		inc a
-		cp $2c
-		jr nz,mcol
-imFastCopyAllFinish:
-		pop af
-	ret po
-;#ifdef enablecn2eis
-	ei
-;#endif
-	ret
 imFastCopyNspire:
 msetrowNspire:
 		call lcd_busy_quick
@@ -313,7 +266,13 @@ mrowNspire:
 		inc a
 		cp $2c
 		jr nz,mcolNspire
-		jr imFastCopyAllFinish
+imFastCopyAllFinish:
+		pop af
+	ret po
+;#ifdef enablecn2eis
+	ei
+;#endif
+	ret
 
 ; Critical timings:
 ;	command->command: 65
