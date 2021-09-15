@@ -612,7 +612,7 @@ SmallWinAbout7:
 	.db %00010000
 	.db %00010000
 	.db %00100000
-	.db " Doors CS 7.3",0
+	.db " Doors CS 7.3L1",0
 SmallWinAbout7_1:
 About7Buttons:
 	.dw About7Sprite-About7Buttons
