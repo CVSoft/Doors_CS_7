@@ -6,6 +6,10 @@ under the following license as a learning tool to other programmers.
 
 More info: http://dcs.cemetech.net
 
+This is CVSoft's version 7.3L1, which is designed to fix LCD issues on newer 
+calculators manufactured after 2018. Extensive testing has not been performed, 
+and it is not intended for general use. 
+
 +---------------------------------------------------+
 |        Doors CS 7 Source Code License             |
 |        ==============================             |
